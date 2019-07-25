@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+}
+
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  height: inherit;
+}
+
+div{
+  display: flex;
+}
+h1 {
+  font-size: 2rem;
+  letter-spacing: -1px;
+  
+  margin-top: 50px;
+  text-align: center;
+  color: black;
+}
+
+canvas {
+  border:1px solid #000000; 
+  margin:30px 0px 0px 80px;
+}
+
+p {
+  font-size: 2rem;  
+  margin-top: 200px;
+  margin-left: 100px;
+  color: black;
+  font-weight: bold;
+  display: block;
+}
