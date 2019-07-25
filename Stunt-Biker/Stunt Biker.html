@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body onload="start()">
+<canvas id="canvas" 
+style="border:1px solid #000000; margin:50px 0px 0px 100px">
+</canvas>
+
+<script>
+var plankX = 900, plankY = 700, plankspeed = 5, dir = 1, ctx, vX = 0, vY = 0, bikeX = 20, bikeY = 700, key = false, g = 1, a = 2 , backgroundspeed = -0.5,backgroundX = 0;
+var bike = new Image();
+var plank = new Image();
+var background = new Image();
+var hilly = new Image();
+
+function init()
+{
+     var canvas = document.getElementById("canvas");
+     canvas.width=1500;
+     canvas.height=800;
+     ctx = canvas.getContext("2d");
+     bike.src = "bikeT.png";
+     plank.src = "plank.png";
+     background.src = "background.png";
+     hilly.src = "hilly.png";
+}
+
+
+function update()
+{
+      if(bikeX<800)
+	  {
+        bikeX += 2*vX;
+        bikeY -= vY;
+      }
+      else
+	  {
+        bike.src = "bike.png"
+        bikeX += 2*vX;
+        bikeY = bikeY - vY;
+        vY = vY - g;
+      }
+      plankX += plankspeed*dir;
+    if(plankX+80 > 1400)
+      dir = -1;
+    else if(plankX <900)
+	{
+      dir =1;
+      plankX=900;
+    }backgroundX += backgroundspeed;
+	if (backgroundX == -(canvas.width))
+	{
+      backgroundX = 0;
+	}
+	
+}
+
+function Input()
+{
+			window.addEventListener('keydown', function (e) {
+				key = e.keyCode;
+				});
+			window.addEventListener('keyup', function (e) {
+                key = false;
+                });
+		if(bikeX <800)
+		{
+              if (key && key == 39) {vX += a/30; vY += a/30;}
+              else if (key && key == 37) {vX -= a/30; vY -= a/30; }
+	          else 
+			  {
+	            
+	             if(vX >0){vX -= 0.5; vY -= 0.5;}	
+           	    else if(vX<0){vX += a/30; vY += a/30;}
+	            else {vX=0;vY=0;}
+	       
+             }
+        }
+ }
+ 
+function draw(){
+   ctx.clearRect(0,0,1500,800);
+   ctx.drawImage(background, backgroundX, 0, canvas.width, canvas.height);
+   ctx.drawImage(background, backgroundX+canvas.width, 0, canvas.width, canvas.height);
+   ctx.drawImage(hilly, -130, 100, 1150, 810);
+   ctx.drawImage(bike, bikeX, bikeY, 100, 100);
+   ctx.drawImage(plank, plankX, plankY, 200, 100);
+   if(bikeX >900 && bikeY >600 && bikeX+50 > plankX && bikeX  < plankX+150 && bikeY < 800)
+   {
+      vX = 0;
+      vY =0;
+      a=0;
+      plankspeed=0;
+      g=0;
+      bikeY=615;
+	  ctx.font="100px Comic Sans MS";
+      ctx.fillStyle = "red";
+      ctx.textAlign = "center";
+      ctx.fillText("YOU WIN", canvas.width/2, canvas.height/2);
+    }
+    else if(bikeY > 750)
+   {
+     ctx.font="100px Comic Sans MS";
+     ctx.fillStyle = "red";
+     ctx.textAlign = "center";
+     ctx.fillText("YOU LOSE", canvas.width/2, canvas.height/2);
+   }
+}
+function gameloop()
+{
+   Input();
+   update();
+   console.log(bikeY);
+   draw();
+}
+function start()
+{
+   init();
+   setInterval(gameloop,34);
+}
+
+
+</script>
+</body>
+</html>
